@@ -10,6 +10,10 @@ import DayListItem from "components/DayListItem"
 import DayList from "components/DayList"
 import InterviewerList from "components/InterviewerList"
 import InterviewerListItem from "components/InterviewerListItem"
+import Appointment from "components/appointment"
+import Header from "components/appointment/Header"
+import Empty from "components/appointment/Empty"
+import Show from "components/appointment/Show"
 
 storiesOf("Button", module)
   .addParameters({
@@ -126,3 +130,13 @@ storiesOf("InterviewerList", module)
     />
   ));
 
+storiesOf("Appointment", module)
+  .addParameters({
+    backgrounds: [{ name: "white", value: "#fff", default: true }]
+  })
+  .add("Appointment", () => <Appointment />)
+  .add("Appointment with Time", () => <Appointment time="12pm" />)
+  .add("Header", () => <Header time="12pm" />)
+  .add("Empty", () => <Empty onAdd={action("onAdd")} />)
+  .add("Show", () => <Show student="Lydia Miller-Jones" )
+  
