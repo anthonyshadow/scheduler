@@ -6,7 +6,7 @@ import Button from "components/Button";
 import DayListItem from "components/DayListItem"
 import DayList from "components/DayList"
 import Appointment from "components/appointment"
-import { getAppointmentsForDay, getInterview } from '../helpers/selectors';
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from '../helpers/selectors';
 
 
 
@@ -64,11 +64,13 @@ useEffect(() => {
       <section className="schedule">
         {getAppointmentsForDay(state, state.day).map(appointment => {
           const interview = getInterview(state, appointment.interview)
+          const interviewers = getInterviewersForDay(state, state.day)
           return <Appointment
             key={appointment.id}
             id={appointment.id}
             time={appointment.time}
-            interview={interview} />
+            interview={interview}
+            interviewers={interviewers}  />
         })}
         })}
         <Appointment key="last" time="5pm" />
