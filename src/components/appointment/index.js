@@ -9,6 +9,10 @@ import Show from "components/appointment/Show";
 import useVisualMode from "hooks/useVisualMode";
 import Form from "components/appointment/Form";
 
+const EMPTY = "EMPTY";
+const SHOW = "SHOW";
+const CREATE = "CREATE"
+
 export default function Appointment(props) {
 
   const { mode, transition, back } = useVisualMode(
@@ -24,7 +28,7 @@ export default function Appointment(props) {
     />)}
     {mode === CREATE && (<Form
       interviewers={[]}
-      onCancel={() => back()}
+      onCancel={() => back(EMPTY)}
     />)}
   </article>;
 }
