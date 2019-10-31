@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"
 
 import "components/Application.scss";
-import Button from "components/Button";
-import DayListItem from "components/DayListItem"
 import DayList from "components/DayList"
 import Appointment from "components/appointment"
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from '../helpers/selectors';
@@ -14,7 +12,38 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from '../h
 
 
 export default function Application(props) {
-  const [days, setDays] = useState([])
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios.put(`/api/appointments/${id}`, {interview})
+    .then((response) => {
+      if(response.status === 204) {
+  
+        setState(prev => ({...prev, appointments}));
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+
+  function cancelInterview(id) {
+    return axios.delete(`/api/appointments/${id}`)
+      .then((response) => {
+        console.log(response)
+      }).catch(error => {
+        console.log("delete error")
+      })
+
+  }
+
   
   const [state, setState] = useState({
     day: "Monday",
@@ -70,7 +99,9 @@ useEffect(() => {
             id={appointment.id}
             time={appointment.time}
             interview={interview}
-            interviewers={interviewers}  />
+            interviewers={interviewers}
+            bookInterview={bookInterview} 
+            cancelInterview={cancelInterview} />
         })}
         })}
         <Appointment key="last" time="5pm" />
