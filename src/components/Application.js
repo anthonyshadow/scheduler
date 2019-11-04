@@ -11,13 +11,13 @@ import useApplicationData from "../hooks/useApplicationData";
 
 
 
-export default function Application(props) {
+export default function Application() {
 
   const {
-    state, 
+    state,
     setDay,
-    bookInterview, 
-    cancelInterview
+    bookInterview,
+    cancelInterview,
   } = useApplicationData();
   
   return (
@@ -34,6 +34,7 @@ export default function Application(props) {
             days={state.days}
             day={state.day}
             setDay={setDay}
+            appointments={state.appointments}
           />
         </nav>
         <img
