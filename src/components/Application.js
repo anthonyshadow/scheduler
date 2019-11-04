@@ -43,7 +43,8 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {getAppointmentsForDay(state, state.day).map(appointment => {
+        {getAppointmentsForDay(state, state.day).map((appointment) => {
+          console.log(appointment)
           const interviewers = getInterviewersForDay(state, state.day)
           return <Appointment
           key={appointment.id}

@@ -1,14 +1,14 @@
 export function getAppointmentsForDay(state, day) {
   const appointmentsId = state.days
     .filter(e => e.name === day)
-    .map(e => e.appointments)
+    .map((e) => e.appointments)
     .reduce((acc, val) => acc.concat(val), []);
-
+console.log("state", state)
   const appointment = [];
-  appointmentsId.forEach(e => {
+  appointmentsId.forEach((e) => {
     appointment.push(state.appointments[e]);
   });
-
+console.log(appointment)
   return appointment;
 }
 

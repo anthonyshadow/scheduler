@@ -11,22 +11,26 @@ export default function useApplicationData() {
 
   const setDay = day => setState(prev => ({ ...prev, day }));
   const setDays = days => setState(prev => ({ ...prev, days }));
-  const setAppointments = appointments => setState(prev => ({ ...prev, appointments}));
+  const setAppointments = appointments => {
+    console.log("set aPpointments", appointments)
+    setState(prev => ({ ...prev, appointments}));
+  }
   const setInterviewers = interviewers => setState(prev => ({ ...prev, interviewers}));
 
   useEffect(() => {
     Promise
     .all([
-      Axios.get(`/api/appointments/days`),
-      Axios.get(`/api/appointments/appointments`),
-      Axios.get(`/api/appointments/interviewers`)
+      Axios.get(`/api/days`),
+      Axios.get(`/api/appointments`),
+      Axios.get(`/api/interviewers`)
      ])
     .then((res) => {
-      setDays(res[0].data)
       setAppointments(res[1].data)
       setInterviewers(res[2].data)
+      setDays(res[0].data)
     })
   }, [])
+
 
   function bookInterview(id, interview) {
     const appointment = {
@@ -38,14 +42,17 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    return (
-      Axios
-        .put(`/api/appointments${id}`, {interview})
-        .then((res) => 
-          setState({
-            ...state,
-            appointments
-        })))
+
+    return Axios
+      .put(`/api/appointments/${id}`, { interview })
+      .then(response => {
+        if (response.status === 204) {
+          setState(prev => ({ ...prev, appointments }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   function cancelInterview(id) {
