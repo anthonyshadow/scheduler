@@ -18,6 +18,7 @@ export default function Application() {
     setDay,
     bookInterview,
     cancelInterview,
+    getSpotsForDay
   } = useApplicationData();
   
   return (
@@ -35,6 +36,7 @@ export default function Application() {
             day={state.day}
             setDay={setDay}
             appointments={state.appointments}
+            getSpotsForDay={getSpotsForDay}
           />
         </nav>
         <img
@@ -54,7 +56,9 @@ export default function Application() {
           interview={getInterview(state, appointment.interview)}
           interviewers={interviewers}
           bookInterview={bookInterview}
-          cancelInterview={cancelInterview} />
+          cancelInterview={cancelInterview}
+          appointments={state.appointments}
+          days={state.days} />
         })}
         })}
         <Appointment key="last" time="5pm" />

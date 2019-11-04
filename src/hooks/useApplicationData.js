@@ -89,11 +89,32 @@ export default function useApplicationData() {
         });
     }
 
+    function getSpotsForDay(appointments, days, day) {
+      const appointmentsSpread = { ...appointments };
+      const specificDay = days.find(target => target.name === day.name);
+      const appointmentList = [...specificDay.appointments];
+      const numberOfSpots = appointmentList.length;
+  
+      const fullSpots = Object.values(appointmentsSpread).reduce(
+        (result, appointment) => {
+          if (appointmentList.includes(appointment.id)) {
+            if (appointment.interview) {
+              return result + 1;
+            }
+          }
+          return result;
+        },
+        0
+      );
+      return numberOfSpots - fullSpots;
+    }
+
 
   return {
     state,
     setDay,
     bookInterview,
     cancelInterview,
+    getSpotsForDay
   }
 }
