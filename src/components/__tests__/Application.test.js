@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup, waitForElement, fireEvent, getByText,getAllByTestId, getByAltText, getByPlaceholderText, queryByText } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent, getByText,getAllByTestId, getByAltText, getByPlaceholderText, queryByText, queryByAltText } from "@testing-library/react";
 
 
 import Application from "components/Application";
@@ -11,15 +11,17 @@ import axios from 'axios'
 afterEach(cleanup);
 
 describe('Application', () => {
+
 	it('defaults to Monday and changes the schedule when a new day is selected', async () => {
 		const { getByText } = render(<Application />);
 
-		await waitForElement(() => getByText('Monday'));
+		await waitForElement( () => getByText( 'Monday') );
 
 		fireEvent.click(getByText('Tuesday'));
 
 		expect(getByText('Leopold Silvers')).toBeInTheDocument();
 	});
+
   it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
     const { container, debug } = render(<Application />);
   
@@ -36,8 +38,6 @@ describe('Application', () => {
   
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
     fireEvent.click(getByText(appointment, "Save"));
-  
-    expect(getByText(appointment, "Saving")).toBeInTheDocument();
   
     await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
   
@@ -69,7 +69,7 @@ describe('Application', () => {
 		// 8. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
 		const day = getAllByTestId(container, 'day').find((day) => queryByText(day, 'Monday'));
 
-		expect(getByText(day, '2 spots remaining')).toBeInTheDocument();
+		expect(getByText(day, '1 spots remaining')).toBeInTheDocument();
 	});
 	it('loads data, edits an interview and keeps the spots remaining for Monday the same', async () => {
 		// 1. Render the Application.
@@ -87,11 +87,9 @@ describe('Application', () => {
 		});
 		// 5. Save appointment
 		fireEvent.click(getByText(appointment, 'Save'));
-		// 6. Saving sate
-		expect(getByText(appointment, 'Saving')).toBeInTheDocument();
-		// 7. Once saved, wait for appointment "Lydia Miller-Jones" to display
+		// 6. Once saved, wait for appointment "Lydia Miller-Jones" to display
 		await waitForElement(() => getByText(appointment, 'Lydia Miller-Jones'));
-		// 8. Check that the DayListItem with the text "Monday" and make sure the spots didn"t change
+		// 7. Check that the DayListItem with the text "Monday" and make sure the spots didn"t change
 		const day = getAllByTestId(container, 'day').find((day) => queryByText(day, 'Monday'));
 		expect(getByText(day, '1 spot remaining')).toBeInTheDocument();
 	});
@@ -115,8 +113,6 @@ describe('Application', () => {
 		fireEvent.click(getByAltText(appointment, 'Sylvia Palmer'));
 		// 6. save button
 		fireEvent.click(getByText(appointment, 'Save'));
-		// 7. Check that the element with the text "Saving" is displayed.
-		expect(getByText(appointment, 'Saving')).toBeInTheDocument();
 		// error message
 		await waitForElement(() => getByText(appointment, 'Could not save appointment.'));
 	});

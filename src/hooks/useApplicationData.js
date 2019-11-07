@@ -47,7 +47,7 @@ export default function useApplicationData() {
           }
         })
         .catch(error => {
-          console.log(error);
+          throw new Error(error);
         });
     }
 
@@ -59,7 +59,7 @@ export default function useApplicationData() {
         })
 
         .catch(error => {
-          console.log("delete error");
+          throw new Error(error);
         });
     }
 

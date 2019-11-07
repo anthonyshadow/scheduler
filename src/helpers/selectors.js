@@ -3,12 +3,10 @@ export function getAppointmentsForDay(state, day) {
     .filter(e => e.name === day)
     .map((e) => e.appointments)
     .reduce((acc, val) => acc.concat(val), []);
-console.log("state", state)
   const appointment = [];
   appointmentsId.forEach((e) => {
     appointment.push(state.appointments[e]);
   });
-console.log(appointment)
   return appointment;
 }
 
@@ -19,7 +17,6 @@ export  function getInterview(state, interview) {
     const student = interview.student;
     const interviewer = state.interviewers[interview.interviewer];
     const interviewObject = { student, interviewer};
-    console.log(interviewObject)
     return interviewObject;
   }
 } 

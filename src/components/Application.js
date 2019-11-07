@@ -37,6 +37,7 @@ export default function Application() {
             setDay={setDay}
             appointments={state.appointments}
             getSpotsForDay={getSpotsForDay}
+            selectedDay={state.day}
           />
         </nav>
         <img
@@ -47,7 +48,6 @@ export default function Application() {
       </section>
       <section className="schedule">
         {getAppointmentsForDay(state, state.day).map((appointment) => {
-          console.log(appointment)
           const interviewers = getInterviewersForDay(state, state.day)
           return <Appointment
           key={appointment.id}
